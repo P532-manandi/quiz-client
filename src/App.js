@@ -6,17 +6,18 @@ import CreateQuiz from "./pages/CreateQuiz";
 import TakeQuiz from "./pages/TakeQuiz";
 
 export default function App() {
-  const [showNavbar, setShowNavbar] = useState(true); 
+  const [showNavbar, setShowNavbar] = useState(true);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout showNavbar={showNavbar} />}>
-          <Route index element={<Home />} />
-          <Route path="/create" element={<CreateQuiz />} />
-          <Route path="/take" element={<TakeQuiz setShowNavbar={setShowNavbar} />} /> 
-        </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Layout showNavbar={showNavbar} />}>
+        <Route index element={<Home />} />
+        <Route path="/create" element={<CreateQuiz />} />
+        <Route
+          path="/take"
+          element={<TakeQuiz setShowNavbar={setShowNavbar} />}
+        />
+      </Route>
+    </Routes>
   );
 }
