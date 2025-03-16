@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchQuizzes, fetchQuizById } from "../api/quizApi";
 import "./TakeQuiz.css";
 
-export default function TakeQuiz({ setShowNavbar }) { 
+export default function TakeQuiz({ setShowNavbar }) {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [currentQuiz, setCurrentQuiz] = useState(null);
@@ -46,7 +46,7 @@ export default function TakeQuiz({ setShowNavbar }) {
       setScore(0);
       setQuizCompleted(false);
       setSelectedAnswers({});
-      setShowNavbar(false); 
+      setShowNavbar(false);
     } catch (error) {
       console.error("Error loading quiz:", error);
       alert("Failed to load quiz.");
@@ -74,7 +74,7 @@ export default function TakeQuiz({ setShowNavbar }) {
       });
       setScore(newScore);
       setQuizCompleted(true);
-      setShowNavbar(true); 
+      setShowNavbar(true);
     }
   };
 
@@ -90,7 +90,7 @@ export default function TakeQuiz({ setShowNavbar }) {
     setScore(0);
     setQuizCompleted(false);
     setSelectedAnswers({});
-    setShowNavbar(true); 
+    setShowNavbar(true);
     navigate("/take");
   };
 
@@ -99,19 +99,39 @@ export default function TakeQuiz({ setShowNavbar }) {
       {currentQuiz && !quizCompleted ? (
         <div>
           <h2 className="quiz-title">{currentQuiz.title}</h2>
+          {currentQuiz.questions?.[currentQuestionIndex]?.image && (
+            <img
+              src={currentQuiz.questions[currentQuestionIndex].image}
+              alt=""
+            />
+          )}
+          {!currentQuiz.questions?.[currentQuestionIndex]?.image && (
+            <img
+              style={{ width: "25%" }}
+              src={`https://quiz-service-bb46.onrender.com/questions/${currentQuiz.questions[currentQuestionIndex].id}/image`}
+              alt=""
+            />
+          )}
           <h3 className="quiz-question">
-            {currentQuiz.questions?.[currentQuestionIndex]?.description || "Question not found"}
+            {currentQuiz.questions?.[currentQuestionIndex]?.description ||
+              "Question not found"}
           </h3>
           <div className="quiz-choices">
-            {currentQuiz.questions?.[currentQuestionIndex]?.choices?.map((choice) => (
-              <button 
-                key={choice} 
-                onClick={() => handleSelectAnswer(choice)} 
-                className={`quiz-choice ${selectedAnswers[currentQuestionIndex] === choice ? "selected" : ""}`}
-              >
-                {choice}
-              </button>
-            )) || <p>No choices available</p>}
+            {currentQuiz.questions?.[currentQuestionIndex]?.choices?.map(
+              (choice) => (
+                <button
+                  key={choice}
+                  onClick={() => handleSelectAnswer(choice)}
+                  className={`quiz-choice ${
+                    selectedAnswers[currentQuestionIndex] === choice
+                      ? "selected"
+                      : ""
+                  }`}
+                >
+                  {choice}
+                </button>
+              )
+            ) || <p>No choices available</p>}
           </div>
           <div className="quiz-navigation">
             {currentQuestionIndex > 0 && (
@@ -119,17 +139,26 @@ export default function TakeQuiz({ setShowNavbar }) {
                 Previous
               </button>
             )}
-            <span>Question {currentQuestionIndex + 1} of {currentQuiz.questions.length}</span>
+            <span>
+              Question {currentQuestionIndex + 1} of{" "}
+              {currentQuiz.questions.length}
+            </span>
             <button onClick={handleNextQuestion} className="next-button">
-              {currentQuestionIndex + 1 === currentQuiz.questions.length ? "Finish" : "Next"}
+              {currentQuestionIndex + 1 === currentQuiz.questions.length
+                ? "Finish"
+                : "Next"}
             </button>
           </div>
         </div>
       ) : quizCompleted ? (
         <div className="quiz-completed">
           <h2>Quiz Completed!</h2>
-          <p>Your final score: {score} / {currentQuiz.questions.length}</p>
-          <button onClick={resetQuizAndGoBack} className="back-button">Back to Quizzes</button>
+          <p>
+            Your final score: {score} / {currentQuiz.questions.length}
+          </p>
+          <button onClick={resetQuizAndGoBack} className="back-button">
+            Back to Quizzes
+          </button>
         </div>
       ) : (
         <div>
@@ -139,9 +168,9 @@ export default function TakeQuiz({ setShowNavbar }) {
               <p>No quizzes available.</p>
             ) : (
               quizzes.map((quiz) => (
-                <div 
-                  key={quiz.id} 
-                  className="quiz-card" 
+                <div
+                  key={quiz.id}
+                  className="quiz-card"
                   onClick={() => startQuiz(quiz.id)}
                 >
                   <h3>{quiz.title}</h3>
