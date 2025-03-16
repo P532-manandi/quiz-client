@@ -1,0 +1,22 @@
+.navbar {
+    background-color: orange;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .nav-item {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .nav-item:hover {
+    background-color: darkorange;
+    border-radius: 5px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
